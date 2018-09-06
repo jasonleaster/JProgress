@@ -16,11 +16,14 @@
 
 package org.jasonleaster.progress;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Author: jasonleaster
@@ -45,11 +48,10 @@ public class ProgressInfo implements Serializable{
 
     private LocalDateTime endTime;
 
+    private Map<String, Object> attachedInfo;
+
     public ProgressInfo(String progressId) {
-        this.progressId = progressId;
-        this.progressName = "ProgressNameFor : " + progressId;
-        this.status = EnumProgressStatus.NOTSTART;
-        this.value  = 0.0;
+        this(progressId, "ProgressNameFor : " + progressId);
     }
 
     public ProgressInfo(String progressId, String progressName) {
@@ -57,6 +59,7 @@ public class ProgressInfo implements Serializable{
         this.progressName = progressName;
         this.status = EnumProgressStatus.NOTSTART;
         this.value  = 0.0;
+        this.attachedInfo = new ConcurrentHashMap<>();
     }
 
     public ProgressInfo(ProgressInfo other){
@@ -66,6 +69,7 @@ public class ProgressInfo implements Serializable{
         this.status = other.status;
         this.startTime = other.startTime;
         this.endTime   = other.endTime;
+        this.attachedInfo = new ConcurrentHashMap<>(other.attachedInfo);
 
         // Attention! But we don't copy the list
         // We will do it later

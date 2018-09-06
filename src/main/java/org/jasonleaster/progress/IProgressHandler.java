@@ -60,4 +60,8 @@ public interface IProgressHandler {
      * @return {@link ProgressInfo}
      */
     ProgressInfo getProgressInfo();
+
+    void putCustomInfo(String name, Object info);
+
+    Object getCustomInfo(String name);
 }

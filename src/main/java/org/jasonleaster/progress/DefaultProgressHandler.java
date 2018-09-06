@@ -146,4 +146,14 @@ class DefaultProgressHandler implements IProgressHandler {
         // return a value based copy(Shallow Copy) of this object
         return snapshot;
     }
+
+    @Override
+    public void putCustomInfo(String name, Object info) {
+        this.progressInfo.getAttachedInfo().put(name, info);
+    }
+
+    @Override
+    public Object getCustomInfo(String name) {
+        return this.progressInfo.getAttachedInfo().get(name);
+    }
 }

@@ -14,7 +14,8 @@
 
 样例:
 1. 服务端对 IProgressHandler 的使用
-```
+``` java
+
     private static class ProgressWithThread implements Runnable{
 
         private IProgressHandler progressHandler;
@@ -57,7 +58,8 @@
     }
 ```
 2. 模拟客户端/浏览器 polling查询进度
-```
+``` java
+
 private EnumProgressStatus pollingStatusOfProgress(String customPID){
 
         EnumProgressStatus currentStatus = EnumProgressStatus.NOTSTART;
