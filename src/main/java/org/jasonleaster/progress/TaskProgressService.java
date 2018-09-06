@@ -16,9 +16,10 @@
 
 package org.jasonleaster.progress;
 
-import java.util.Arrays;
 import org.jasonleaster.progress.container.IProgressInstanceContainer;
 import org.jasonleaster.progress.container.InMemoryProgressContainer;
+
+import java.util.Arrays;
 
 /**
  * Author: jasonleaster
@@ -26,16 +27,20 @@ import org.jasonleaster.progress.container.InMemoryProgressContainer;
  * Email : jasonleaster@gmail.com
  * Description:
  */
-public final class TaskProgressService {
+public class TaskProgressService {
 
-    private static final TaskProgressService instance = new TaskProgressService();
+    private final IProgressInstanceContainer container;
 
-    private static final IProgressInstanceContainer container = new InMemoryProgressContainer();
+    public TaskProgressService() {
+        this.container = new InMemoryProgressContainer();
+    }
 
-    private TaskProgressService() {}
-
-    public static TaskProgressService getInstance(){
-        return instance;
+    /**
+     * Initialize with user defined container for progress model
+     * @param customContainer User custom container
+     */
+    public TaskProgressService(IProgressInstanceContainer customContainer){
+        this.container = customContainer;
     }
 
     /**

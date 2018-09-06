@@ -16,6 +16,8 @@ public class IProgressHandlerTest {
      * One Second in millisecond
      */
     private static final int ONE_SECOND = 1000;
+    
+    private static final TaskProgressService PROGRESS_SERVICE = new TaskProgressService();
 
     private Thread userTask;
 
@@ -45,7 +47,7 @@ public class IProgressHandlerTest {
 
             synchronized (this){
                 for (;true;){
-                    ProgressInfo progressInfo = TaskProgressService.getInstance().getProgressInfo(customPID);
+                    ProgressInfo progressInfo = PROGRESS_SERVICE.getProgressInfo(customPID);
                     if (progressInfo != null &&
                         progressInfo.getStatus() == EnumProgressStatus.RUNNING &&
                         progressInfo.getValue() > 0.4){
@@ -87,15 +89,13 @@ public class IProgressHandlerTest {
         IProgressHandler[] progressHandlers = new IProgressHandler[numOfSubProgress];
 
         for (int i = 0; i < numOfSubProgress; i++){
-            progressHandlers[i] = TaskProgressService.getInstance()
-                .createProgressHandler("subProgress" + i);
+            progressHandlers[i] = PROGRESS_SERVICE.createProgressHandler("subProgress" + i);
 
             subProgress[i] = new Thread(new ProgressWithThread(progressHandlers[i]));
             subProgress[i].start();
         }
 
-        TaskProgressService.getInstance()
-            .createProgressHandler(mainProgressId,  "mainProgress", progressHandlers);
+        PROGRESS_SERVICE.createProgressHandler(mainProgressId,  "mainProgress", progressHandlers);
 
         EnumProgressStatus finalStatusOfMainProgress = pollingStatusOfProgress(mainProgressId);
 
@@ -116,7 +116,7 @@ public class IProgressHandlerTest {
                 currentStatus != EnumProgressStatus.FINISHED &&
                 currentStatus != EnumProgressStatus.CANCELED)){
 
-                progressInfo = TaskProgressService.getInstance().getProgressInfo(customPID);
+                progressInfo = PROGRESS_SERVICE.getProgressInfo(customPID);
                 if (progressInfo == null){
                     log("Progress have not been created.");
                     try {
@@ -149,7 +149,7 @@ public class IProgressHandlerTest {
         private IProgressHandler progressHandler;
 
         ProgressWithThread(String progressId){
-            this.progressHandler = TaskProgressService.getInstance().createProgressHandler(progressId);
+            this.progressHandler = PROGRESS_SERVICE.createProgressHandler(progressId);
         }
 
         ProgressWithThread(IProgressHandler progressHandler) {
