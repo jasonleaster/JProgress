@@ -16,10 +16,11 @@
 
 package org.jasonleaster.progress;
 
+import org.apache.log4j.Logger;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
 
 /**
  * Author: jasonleaster
@@ -87,6 +88,7 @@ class DefaultProgressHandler implements IProgressHandler {
             }
         }
 
+        progressInfo.setValue(100.);
         progressInfo.setEndTime(LocalDateTime.now());
         progressInfo.setStatus(EnumProgressStatus.FINISHED);
     }
