@@ -27,6 +27,9 @@
             this.progressHandler = TaskProgressService.getInstance().createProgressHandler(progressId);
         }
 
+        /*
+         Step 1. 服务端线程通过TaskProgressService 获取进度处理器 IProgressHandler
+         */
         ProgressWithThread(IProgressHandler progressHandler) {
             this.progressHandler = progressHandler;
         }
@@ -37,6 +40,9 @@
                 return;
             }
 
+            /*
+                Step 2. 开始进度操作
+             */
             progressHandler.start();
 
             int total = 10000;
@@ -45,6 +51,9 @@
                 for (int i = 0; i < total; i++){
                     if (i % slice == 0){
                         try {
+                            /*
+                                Step 3. 根据业务需要更新进度值
+                             */
                             progressHandler.update(i * 100.0 / total);
                             this.wait(ONE_SECOND);
                         } catch (InterruptedException e){
@@ -56,6 +65,9 @@
                     }
                 }
             }
+            /*
+                Step 4. 进度控制结束
+             */
             progressHandler.end();
         }
     }
